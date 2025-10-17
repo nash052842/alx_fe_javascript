@@ -313,6 +313,14 @@ init();
 // ---------- Simulated Server Sync ----------
 
 const SERVER_URL = 'https://jsonplaceholder.typicode.com/posts'; // mock API
+fetch('https://jsonplaceholder.typicode.com/posts', {
+  method: 'POST', // ← this defines the HTTP method
+  headers: {
+    'Content-Type': 'application/json', // ← tells the server we're sending JSON
+  },
+  body: JSON.stringify(quotes), // ← the actual data we're sending
+})
+
 
 async function fetchQuotesFromServer() {
   try {
