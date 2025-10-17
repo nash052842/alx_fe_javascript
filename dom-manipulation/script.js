@@ -389,6 +389,6 @@ setInterval(syncWithServer, 60000); // 1 minute
 
 // ---------- Manual Sync Button (optional) ----------
 const syncBtn = document.createElement('button');
-syncBtn.textContent = 'Sync with Server';
-syncBtn.onclick = syncWithServer;
+syncBtn.textContent = 'Quote synced with Server';
+syncBtn.onclick = syncQuotes;
 document.querySelector('.controls').appendChild(syncBtn);
