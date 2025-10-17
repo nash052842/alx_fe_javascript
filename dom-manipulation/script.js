@@ -314,7 +314,7 @@ init();
 
 const SERVER_URL = 'https://jsonplaceholder.typicode.com/posts'; // mock API
 
-async function fetchServerQuotes() {
+async function fetchQuotesFromServer() {
   try {
     const response = await fetch(SERVER_URL);
     const data = await response.json();
