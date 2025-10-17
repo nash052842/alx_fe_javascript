@@ -369,8 +369,8 @@ function mergeQuotes(localQuotes, serverQuotes) {
 }
 
 // ---------- Sync Function ----------
-async function syncWithServer() {
-  const serverQuotes = await fetchServerQuotes();
+async function syncQuotes() {
+  const serverQuotes = await fetchQuotesFromServer();
   const { added, conflicts } = mergeQuotes(quotes, serverQuotes);
 
   if (added > 0 || conflicts.length > 0) {
