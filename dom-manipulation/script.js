@@ -290,9 +290,9 @@ function init() {
   if (categoryFilter) categoryFilter.addEventListener('change', filterQuotes);
 
   // ✅ Populate categories on load
-  populateCategoryFilter();
+populateCategoryFilter();
 
-  // Restore last session quote
+// Restore last session quote
   try {
     const lastRaw = sessionStorage.getItem(SESSION_KEY);
     if (lastRaw) {
