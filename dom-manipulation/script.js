@@ -310,3 +310,77 @@ populateCategories();
   showRandomQuote();
 }
 init();
+// ---------- Simulated Server Sync ----------
+
+const SERVER_URL = 'https://jsonplaceholder.typicode.com/posts'; // mock API
+
+async function fetchServerQuotes() {
+  try {
+    const response = await fetch(SERVER_URL);
+    const data = await response.json();
+
+    // Simulate server quotes
+    const serverQuotes = data.slice(0, 5).map(item => ({
+      text: item.title,
+      author: 'Server User',
+      category: 'Server',
+    }));
+
+    return serverQuotes;
+  } catch (err) {
+    console.error('Error fetching server data:', err);
+    return [];
+  }
+}
+
+// ---------- Merge and Conflict Resolution ----------
+function mergeQuotes(localQuotes, serverQuotes) {
+  let conflicts = [];
+  let added = 0;
+
+  serverQuotes.forEach(sq => {
+    const match = localQuotes.find(lq => lq.text === sq.text);
+    if (!match) {
+      // New server quote → add to local
+      localQuotes.push(sq);
+      added++;
+    } else if (JSON.stringify(match) !== JSON.stringify(sq)) {
+      // Conflict: same text but different content
+      conflicts.push({ local: match, server: sq });
+      // Server takes precedence
+      Object.assign(match, sq);
+    }
+  });
+
+  if (added > 0 || conflicts.length > 0) {
+    saveQuotes(localQuotes);
+    populateCategoryFilter();
+  }
+
+  return { added, conflicts };
+}
+
+// ---------- Sync Function ----------
+async function syncWithServer() {
+  const serverQuotes = await fetchServerQuotes();
+  const { added, conflicts } = mergeQuotes(quotes, serverQuotes);
+
+  if (added > 0 || conflicts.length > 0) {
+    let message = '';
+    if (added > 0) message += `✅ ${added} new quote(s) added from server.\n`;
+    if (conflicts.length > 0)
+      message += `⚠️ ${conflicts.length} conflict(s) resolved (server data used).`;
+    alert(message);
+  } else {
+    console.log('No new updates from server.');
+  }
+}
+
+// ---------- Auto-sync every 60 seconds ----------
+setInterval(syncWithServer, 60000); // 1 minute
+
+// ---------- Manual Sync Button (optional) ----------
+const syncBtn = document.createElement('button');
+syncBtn.textContent = 'Sync with Server';
+syncBtn.onclick = syncWithServer;
+document.querySelector('.controls').appendChild(syncBtn);
