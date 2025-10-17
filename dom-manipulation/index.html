@@ -15,6 +15,18 @@
 </head>
 <body>
   <h1>Dynamic Quote Generator</h1>
+  <h1<h1>Dynamic Quote Generator</h1>
+
+<!-- ✅ Category Filter -->
+<div>
+  <label for="categoryFilter">Filter by Category:</label>
+  <select id="categoryFilter" onchange="filterQuotes()">
+    <option value="all">All Categories</option>
+    <!-- Categories will be populated dynamically -->
+  </select>
+</div>
+
+<div id="quoteDisplay">No quote yet. Click "Show New Quote".</div>
 
   <div id="quoteDisplay">No quote yet. Click "Show New Quote".</div>
 

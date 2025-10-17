@@ -45,6 +45,8 @@ const addFormContainer = document.getElementById('addFormContainer');
 const exportBtn = document.getElementById('exportBtn');
 const importFileInput = document.getElementById('importFile');
 const clearAllBtn = document.getElementById('clearAll');
+const categoryFilter = document.getElementById('categoryFilter');
+
 
 // ---------- Utility ----------
 function formatQuoteForDisplay(q) {
@@ -286,3 +288,27 @@ function init() {
 
 // Kick things off
 init();
+function populateCategoryFilter() {
+  if (!categoryFilter) return;
+
+  // Get all unique categories (ignore empty)
+  const categories = [...new Set(quotes.map(q => q.category).filter(c => c))];
+
+  // Clear previous options except "All"
+  categoryFilter.innerHTML = '<option value="all">All Categories</option>';
+
+  // Add each category
+  categories.forEach(cat => {
+    const option = document.createElement('option');
+    option.value = cat;
+    option.textContent = cat;
+    categoryFilter.appendChild(option);
+  });
+
+  // Restore previously selected category from localStorage
+  const savedCategory = localStorage.getItem('dq_selectedCategory');
+  if (savedCategory && categories.includes(savedCategory)) {
+    categoryFilter.value = savedCategory;
+    filterQuotes(); // apply immediately
+  }
+}
