@@ -378,17 +378,16 @@ async function syncQuotes() {
     if (added > 0) message += `✅ ${added} new quote(s) added from server.\n`;
     if (conflicts.length > 0)
       message += `⚠️ ${conflicts.length} conflict(s) resolved (server data used).`;
-    alert(message);
+    alert('Quotes synced with server!');
   } else {
-    console.log('No new updates from server.');
+    console.log('No new updates from server!');
   }
 }
 
 // ---------- Auto-sync every 60 seconds ----------
-setInterval(syncWithServer, 60000); // 1 minute
-
+setInterval(syncQuotes, 60000); // Auto-sync every 60 seconds
 // ---------- Manual Sync Button (optional) ----------
 const syncBtn = document.createElement('button');
-syncBtn.textContent = 'Quote synced with Server';
+syncBtn.textContent = 'Sync Quotes with Server';
 syncBtn.onclick = syncQuotes;
 document.querySelector('.controls').appendChild(syncBtn);
