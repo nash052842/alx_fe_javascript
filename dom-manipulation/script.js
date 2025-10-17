@@ -152,7 +152,7 @@ function addQuote({ text, author = '', category = '' } = {}) {
   alert('Quote added and saved to localStorage!');
 
   // ✅ Refresh categories after adding a new quote
-  populateCategoryFilter();
+  populateCategories();
 }
 window.addQuote = addQuote;
 
@@ -234,12 +234,12 @@ function clearAllQuotes() {
   quotes = [];
   saveQuotes(quotes);
   quoteDisplay.textContent = 'All quotes deleted.';
-  populateCategoryFilter(); // ✅ Update filter dropdown
+  populateCategories(); // ✅ Update filter dropdown
 }
 window.clearAllQuotes = clearAllQuotes;
 
-// ---------- Populate category filter ----------
-function populateCategoryFilter() {
+// ---------- Populate categories ----------
+function populateCategories() {
   if (!categoryFilter) return;
   const categories = [...new Set(quotes.map(q => q.category).filter(c => c))];
   categoryFilter.innerHTML = '<option value="all">All Categories</option>';
@@ -290,7 +290,7 @@ function init() {
   if (categoryFilter) categoryFilter.addEventListener('change', filterQuotes);
 
   // ✅ Populate categories on load
-populateCategoryFilter();
+populateCategories();
 
 // Restore last session quote
   try {
